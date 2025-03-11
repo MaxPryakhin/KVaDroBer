@@ -1,0 +1,35 @@
+package in_memory
+
+import (
+	"errors"
+
+	"go.uber.org/zap"
+)
+
+type Engine struct {
+	table  *HashTable
+	logger *zap.Logger
+}
+
+func NewEngine(logger *zap.Logger) (*Engine, error) {
+	if logger == nil {
+		return nil, errors.New("logger is invalid")
+	}
+
+	return &Engine{
+		table:  NewHashTable(),
+		logger: logger,
+	}, nil
+}
+
+func (e *Engine) Set(key, value string) {
+	e.table.Set(key, value)
+}
+
+func (e *Engine) Get(key string) (string, bool) {
+	return e.table.Get(key)
+}
+
+func (e *Engine) Del(key string) {
+	e.table.Del(key)
+}
