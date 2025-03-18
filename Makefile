@@ -7,3 +7,7 @@ run-unit-test:
 
 run-test-coverage:
 	go test ./... -coverprofile=coverage.out
+
+mock:
+	mockgen -source=internal/database/storage/storage.go -destination=internal/database/storage/storage_mock.go -package=storage
+	mockgen -source=internal/database/database.go -destination=internal/database/database_mock.go -package=database

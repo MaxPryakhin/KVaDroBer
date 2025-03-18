@@ -1,5 +1,5 @@
-# KVaDroBer
-Key-value in memory database 🦊
+# KVaDroBer 🦊
+Key-value database 🦊
 
 ### Query
 KVaDroBer uses eBNF
