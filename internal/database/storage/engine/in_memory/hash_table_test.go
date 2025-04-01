@@ -1,7 +1,9 @@
 package in_memory
 
 import (
+	"context"
 	"errors"
+	"kvadrober/internal/common"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -79,9 +81,9 @@ func TestEngineSet(t *testing.T) {
 			t.Parallel()
 
 			const txID int64 = 1
-
-			test.engine.Set(test.key, test.value)
-			value, found := test.engine.Get(test.key)
+			ctx := common.ContextWithTxID(context.Background(), txID)
+			test.engine.Set(ctx, test.key, test.value)
+			value, found := test.engine.Get(ctx, test.key)
 			assert.True(t, found)
 			assert.Equal(t, test.value, value)
 		})
@@ -119,9 +121,9 @@ func TestEngineDel(t *testing.T) {
 			t.Parallel()
 
 			const txID int64 = 1
-
-			test.engine.Del(test.key)
-			value, found := test.engine.Get(test.key)
+			ctx := common.ContextWithTxID(context.Background(), txID)
+			test.engine.Del(ctx, test.key)
+			value, found := test.engine.Get(ctx, test.key)
 			assert.False(t, found)
 			assert.Empty(t, value)
 		})
@@ -159,8 +161,8 @@ func TestEngineGet(t *testing.T) {
 			t.Parallel()
 
 			const txID int64 = 1
-
-			value, found := test.engine.Get(test.key)
+			ctx := common.ContextWithTxID(context.Background(), txID)
+			value, found := test.engine.Get(ctx, test.key)
 			assert.False(t, found)
 			assert.Empty(t, value)
 		})

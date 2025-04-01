@@ -1,6 +1,7 @@
 package in_memory
 
 import (
+	"context"
 	"errors"
 
 	"go.uber.org/zap"
@@ -21,15 +22,14 @@ func NewEngine(logger *zap.Logger) (*Engine, error) {
 		logger: logger,
 	}, nil
 }
-
-func (e *Engine) Set(key, value string) {
+func (e *Engine) Set(ctx context.Context, key, value string) {
 	e.table.Set(key, value)
 }
 
-func (e *Engine) Get(key string) (string, bool) {
+func (e *Engine) Get(ctx context.Context, key string) (string, bool) {
 	return e.table.Get(key)
 }
 
-func (e *Engine) Del(key string) {
+func (e *Engine) Del(ctx context.Context, key string) {
 	e.table.Del(key)
 }

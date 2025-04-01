@@ -28,11 +28,11 @@ type Database struct {
 
 func NewDatabase(computeLayer computeLayer, storageLayer storageLayer, logger *zap.Logger) (*Database, error) {
 	if computeLayer == nil {
-		return nil, errors.New("compute layer is invalid")
+		return nil, errors.New("compute is invalid")
 	}
 
 	if storageLayer == nil {
-		return nil, errors.New("storage layer is invalid")
+		return nil, errors.New("storage is invalid")
 	}
 
 	if logger == nil {
@@ -46,11 +46,10 @@ func NewDatabase(computeLayer computeLayer, storageLayer storageLayer, logger *z
 	}, nil
 }
 
-func (d *Database) ExecuteQuery(ctx context.Context, queryStr string) string {
-	d.logger.Debug("execute query", zap.String("query", queryStr))
+func (d *Database) HandleQuery(ctx context.Context, queryStr string) string {
+	d.logger.Debug("handling query", zap.String("query", queryStr))
 	query, err := d.computeLayer.Parse(queryStr)
 	if err != nil {
-		d.logger.Debug("parse query error", zap.Error(err))
 		return fmt.Sprintf("[error] %s", err.Error())
 	}
 
